@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+
+:root {
+  --primary: #75AADB; /* Sky Blue */
+  --secondary: #FFFFFF; /* White */
+  --accent: #F6B40E; /* Gold */
+  --dark: #1A1A1A;
+  --light-gray: #F5F7FA;
+  --glass: rgba(255, 255, 255, 0.8);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--secondary);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+section {
+  padding: 100px 5%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+/* Gradient Backgrounds */
+.bg-sky {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+}
+
+.bg-white {
+  background-color: var(--secondary);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 30px;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5a96cc;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(117, 170, 219, 0.4);
+}
+
+.btn-outline {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background: var(--primary);
+  color: white;
+}
