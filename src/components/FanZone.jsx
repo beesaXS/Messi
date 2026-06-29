@@ -1,16 +1,106 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
+const quizQuestions = [
+  {
+    id: 1,
+    question: "In which year did Messi finally win the FIFA World Cup?",
+    options: ["2014", "2018", "2022"],
+    answer: "2022",
+    successMessage: "🏆 Correct! What an iconic moment in 2022.",
+    errorMessage: "❌ Incorrect! He won it in 2022."
+  },
+  {
+    id: 2,
+    question: "How many Ballon d'Or awards has Messi won as of 2023?",
+    options: ["7", "8", "9"],
+    answer: "8",
+    successMessage: "🏆 Correct! He won his 8th in 2023.",
+    errorMessage: "❌ Incorrect! He has won 8 Ballon d'Or awards."
+  },
+  {
+    id: 3,
+    question: "Which club did Messi join after leaving Barcelona in 2021?",
+    options: ["Inter Miami", "Manchester City", "Paris Saint-Germain"],
+    answer: "Paris Saint-Germain",
+    successMessage: "🏆 Correct! He joined PSG in France.",
+    errorMessage: "❌ Incorrect! He joined Paris Saint-Germain."
+  },
+  {
+    id: 4,
+    question: "What is Messi's famous jersey number for Argentina and Barcelona?",
+    options: ["10", "9", "30"],
+    answer: "10",
+    successMessage: "🏆 Correct! He is the iconic number 10.",
+    errorMessage: "❌ Incorrect! His famous number is 10."
+  },
+  {
+    id: 5,
+    question: "How many goals did Messi score in the calendar year 2012 (a world record)?",
+    options: ["86", "91", "95"],
+    answer: "91",
+    successMessage: "🏆 Correct! An unbelievable 91 goals in 2012.",
+    errorMessage: "❌ Incorrect! He scored 91 goals."
+  },
+  {
+    id: 6,
+    question: "At what age did Messi make his official debut for Barcelona's first team?",
+    options: ["16", "17", "18"],
+    answer: "17",
+    successMessage: "🏆 Correct! He debuted at 17 years old.",
+    errorMessage: "❌ Incorrect! He was 17."
+  },
+  {
+    id: 7,
+    question: "Which country did Argentina defeat in the 2022 World Cup Final?",
+    options: ["Brazil", "Croatia", "France"],
+    answer: "France",
+    successMessage: "🏆 Correct! They defeated France on penalties.",
+    errorMessage: "❌ Incorrect! They played against France."
+  },
+  {
+    id: 8,
+    question: "Messi won an Olympic Gold Medal in which year?",
+    options: ["2004", "2008", "2012"],
+    answer: "2008",
+    successMessage: "🏆 Correct! He won gold in Beijing 2008.",
+    errorMessage: "❌ Incorrect! He won it in 2008."
+  },
+  {
+    id: 9,
+    question: "What is the name of Messi's childhood club in Argentina?",
+    options: ["Boca Juniors", "River Plate", "Newell's Old Boys"],
+    answer: "Newell's Old Boys",
+    successMessage: "🏆 Correct! He started at Newell's Old Boys.",
+    errorMessage: "❌ Incorrect! It was Newell's Old Boys."
+  },
+  {
+    id: 10,
+    question: "How many Champions League titles did Messi win with Barcelona?",
+    options: ["3", "4", "5"],
+    answer: "4",
+    successMessage: "🏆 Correct! He won 4 UCL titles (2006, 2009, 2011, 2015).",
+    errorMessage: "❌ Incorrect! He won 4 titles."
+  },
+  {
+    id: 11,
+    question: "What year did Messi win the Copa America with Argentina ahead of the World Cup?",
+    options: ["2019", "2020", "2021"],
+    answer: "2021",
+    successMessage: "🏆 Correct! He won the Copa America in 2021.",
+    errorMessage: "❌ Incorrect! He won it in 2021."
+  }
+];
+
 const FanZone = () => {
-  const [quizState, setQuizState] = useState({ answered: false, correct: false });
+  const [quizStates, setQuizStates] = useState({});
   const [pollVoted, setPollVoted] = useState(false);
 
-  const handleQuiz = (answer) => {
-    if (answer === '2022') {
-      setQuizState({ answered: true, correct: true });
-    } else {
-      setQuizState({ answered: true, correct: false });
-    }
+  const handleQuiz = (id, answer, correctAnswer) => {
+    setQuizStates(prev => ({
+      ...prev,
+      [id]: { answered: true, correct: answer === correctAnswer }
+    }));
   };
 
   return (
@@ -62,25 +152,32 @@ const FanZone = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="fan-card glass-panel"
+              style={{ maxHeight: '500px', overflowY: 'auto' }}
             >
               <h3>Messi Quiz 🧠</h3>
-              <p style={{ marginBottom: '15px' }}>In which year did Messi finally win the FIFA World Cup?</p>
-              {!quizState.answered ? (
-                <div className="quiz-options" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                  <button className="btn btn-outline" onClick={() => handleQuiz('2014')}>2014</button>
-                  <button className="btn btn-outline" onClick={() => handleQuiz('2018')}>2018</button>
-                  <button className="btn btn-outline" onClick={() => handleQuiz('2022')}>2022</button>
-                </div>
-              ) : (
-                <div className="quiz-result" style={{ 
-                  marginTop: '15px', padding: '15px', borderRadius: '10px', 
-                  background: quizState.correct ? '#e6ffe6' : '#ffe6e6', 
-                  color: quizState.correct ? '#006600' : '#cc0000',
-                  fontWeight: '600' 
-                }}>
-                  {quizState.correct ? '🏆 Correct! What an iconic moment in 2022.' : '❌ Incorrect! He won it in 2022.'}
-                </div>
-              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+                {quizQuestions.map((q) => (
+                  <div key={q.id}>
+                    <p style={{ marginBottom: '15px', fontWeight: 'bold' }}>{q.id}. {q.question}</p>
+                    {!quizStates[q.id]?.answered ? (
+                      <div className="quiz-options" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                        {q.options.map(opt => (
+                          <button key={opt} className="btn btn-outline" onClick={() => handleQuiz(q.id, opt, q.answer)}>{opt}</button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="quiz-result" style={{ 
+                        marginTop: '15px', padding: '15px', borderRadius: '10px', 
+                        background: quizStates[q.id].correct ? '#e6ffe6' : '#ffe6e6', 
+                        color: quizStates[q.id].correct ? '#006600' : '#cc0000',
+                        fontWeight: '600' 
+                      }}>
+                        {quizStates[q.id].correct ? q.successMessage : q.errorMessage}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </motion.div>
 
             <motion.div 
